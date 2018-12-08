@@ -6,6 +6,7 @@ require 'betterp/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'betterp'
+  spec.licenses      = ['MIT']
   spec.version       = Betterp::VERSION
   spec.authors       = ['Bob Farrell']
   spec.email         = ['bob@homeflow.co.uk']
