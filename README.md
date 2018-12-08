@@ -22,7 +22,7 @@ The original semantics of `Kernel#p` are still applied, i.e. it returns the valu
 Add the gem to your `Gemfile`
 
 ```ruby
-gem 'strong_versions', '~> 0.3.0'
+gem 'betterp', '~> 0.1.1'
 ```
 
 And rebuild your bundle:
@@ -31,9 +31,9 @@ And rebuild your bundle:
 $ bundle install
 ```
 
-Or install yourself:
+Or install standalone:
 ```bash
-$ gem install strong_versions -v '0.3.0'
+$ gem install betterp -v '0.1.1'
 ```
 
 ## Usage
