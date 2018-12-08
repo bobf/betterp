@@ -43,11 +43,11 @@ module Betterp
       {
         path: [@source.path, color, :underline, effect],
         line_no: [@source.line_no, :underline, color, effect],
-        method_name: [@source.method_name, color, effect],
+        method_name: [@source.method_name, :reset, color, effect],
 
-        method_pointer: [' => ', :default, :reset, :bright],
-        separator: [':', :default, :reset],
-        terminator: [' :: ', :default, :reset]
+        method_pointer: [' => ', :reset, :bright],
+        separator: [':', :reset],
+        terminator: [' :: ', :reset]
       }
     end
 
