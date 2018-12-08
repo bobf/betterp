@@ -1,5 +1,11 @@
 # betterp
 
+```
+If we can find the light
+We'll find the light, come on
+                 --Nickelback
+```
+
 ## Overview
 
 _betterp_ emulates  _Ruby_'s default `p` with a few extra goodies.
