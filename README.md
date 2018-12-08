@@ -2,14 +2,14 @@
 
 ## Overview
 
-_betterp_ is _Ruby_'s default `p` but with a few extra benefits.
+_betterp_ emulates  _Ruby_'s default `p` with a few extra goodies.
 
 The standard `Kernel#p` method is overwritten with a version that provides the following features:
 
 * All output is prefixed with the file and line number that made the call to `p`
-* Output is colourised. The colour is selected using a hash of the file path and line number so the colours are stable.
+* The output prefix is colourised. The colour is selected using a hash of the file path and line number so the colours are stable between each run.
 
-The original semantics of `Kernel#p` are still applied, i.e. it returns the value it was passed and the original implementation is used to generate the output string.
+The original semantics of `Kernel#p` are still applied, i.e. it returns the value(s) passed to it and the result of `#inspect` on each argument is output to a separate line.
 
 ## Installation
 
@@ -32,14 +32,20 @@ $ gem install strong_versions -v '0.3.0'
 
 ## Usage
 
-Use `p` just as you usually would and enjoy.
+Call `p` from anywhere in your code just as you normally would:
 
-## Development
+```ruby
+require 'betterp'
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+p 'hello'
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+![betterp](doc/images/screenshot.png)
 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/bobf/betterp
+
+## License
+
+[MIT License](LICENSE)
