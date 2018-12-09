@@ -22,7 +22,7 @@ The original semantics of `Kernel#p` are still applied, i.e. it returns the valu
 Add the gem to your `Gemfile`
 
 ```ruby
-gem 'betterp', '~> 0.1.1'
+gem 'betterp', '~> 0.1.2'
 ```
 
 And rebuild your bundle:
@@ -33,7 +33,7 @@ $ bundle install
 
 Or install standalone:
 ```bash
-$ gem install betterp -v '0.1.1'
+$ gem install betterp -v '0.1.2'
 ```
 
 ## Usage
