@@ -1,0 +1,14 @@
+Style/Documentation:
+  Enabled: false
+
+Style/StringLiterals:
+  Exclude:
+    - 'lib/betterp/output.rb'
+
+Style/FormatString:
+  Exclude:
+    - 'lib/betterp/output.rb'
+
+Style/FormatStringToken:
+  Exclude:
+    - 'lib/betterp/output.rb'

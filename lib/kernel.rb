@@ -6,7 +6,7 @@ module Kernel
     source = Betterp::Source.new(raw, Dir.pwd)
 
     Betterp::Output.new(raw, source).format(args).each do |output|
-      STDOUT.write(output + "\n")
+      STDOUT.write(output + "\n\n")
     end
 
     args.size > 1 ? args : args.first

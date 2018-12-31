@@ -14,14 +14,23 @@ module Betterp
 
     def format(args)
       args.map do |arg|
-        colorize(prefix) + Paint[arg.inspect, :default, :bright]
+        style = %i[cyan black]
+        header + colorize(prefix) + Paint[arg.inspect, *style]
       end
     end
 
     private
 
+    def header
+      Paint % [
+        +"%{standard}%{relevant}",
+        :default,
+        standard: ['   '],
+        relevant: ['•••• ', color, effect]
+      ]
+    end
+
     def prefix
-      # rubocop:disable Style/FormatStringToken
       [
         '%{path}',
         '%{separator}',
@@ -30,20 +39,17 @@ module Betterp
         '%{method_name}',
         '%{terminator}'
       ].join
-      # rubocop:enable Style/FormatStringToken
     end
 
     def colorize(string)
-      # rubocop:disable Style/FormatString
-      Paint % [string, color, mapping]
-      # rubocop:enable Style/FormatString
+      Paint % [string, :default, mapping]
     end
 
     def mapping
       {
-        path: [@source.path, color, :underline, effect],
-        line_no: [@source.line_no, :underline, color, effect],
-        method_name: [@source.method_name, :reset, color, effect],
+        path: [@source.path],
+        line_no: [@source.line_no],
+        method_name: [@source.method_name],
 
         method_pointer: [' => ', :reset, :bright],
         separator: [':', :reset],
