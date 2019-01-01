@@ -1,4 +1,5 @@
 .PHONY: test
 test:
-	bundle exec rspec
-	bundle exec rubocop
+	bin/rspec
+	bin/rubocop
+	bin/strong_versions

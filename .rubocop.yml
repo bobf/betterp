@@ -12,3 +12,7 @@ Style/FormatString:
 Style/FormatStringToken:
   Exclude:
     - 'lib/betterp/output.rb'
+
+AllCops:
+  Exclude:
+    - 'bin/**/*'

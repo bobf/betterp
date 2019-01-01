@@ -57,7 +57,7 @@ module Betterp
       Paint % [
         +"%{standard}%{relevant}",
         :default,
-        standard: ['   '],
+        standard: ['   ', :default],
         relevant: ['•••• ', @color, @effect]
       ]
     end
