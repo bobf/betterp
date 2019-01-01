@@ -15,11 +15,31 @@ module Betterp
     def format(args)
       args.map do |arg|
         style = %i[cyan black]
-        header + colorize(prefix) + Paint[arg.inspect, *style]
+        header + colorize(prefix) + caller_code + Paint[arg.inspect, *style]
       end
     end
 
     private
+
+    def caller_code
+      return '' unless @raw.include?(':')
+
+      path, line, *_rest = @raw.split(':')
+      return '' unless File.file?(path) && line.to_i.positive?
+
+      Paint % [
+        +'%{open}%{code}%{close}',
+        :default,
+        open: ['{ ', :white, :default],
+        code: [find_caller(line.to_i, path).to_s.strip, :blue, :black],
+        close: [' } ', :white, :default]
+      ]
+    end
+
+    def find_caller(line_number, path)
+      lines = File.readlines(path)
+      lines[0...line_number].reverse.find { |line| line.match(/\bp\b/) }
+    end
 
     def header
       Paint % [
