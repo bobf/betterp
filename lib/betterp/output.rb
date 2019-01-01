@@ -25,7 +25,7 @@ module Betterp
       return '' unless @raw.include?(':')
 
       path, line, *_rest = @raw.split(':')
-      return '' unless File.file?(path) && line.to_i.positive?
+      return '' unless Pathname.new(path).readable? && line.to_i.positive?
 
       Paint % [
         +'%{open}%{code}%{close}',
