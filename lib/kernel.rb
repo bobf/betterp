@@ -16,7 +16,7 @@ module Kernel
     pretty = options.fetch(:pretty, false)
 
     Betterp::Output.new(raw, source, pretty: pretty).format(args).each do |str|
-      STDOUT.write(str + "\n\n")
+      STDOUT.write(str + "\n")
     end
 
     args.size > 1 ? args : args.first
