@@ -8,7 +8,7 @@
 
 Gemfile.lock
 
-# rspec failure tracking
+.ruby-version
 .rspec_status
 .byebug_history
 *.swp

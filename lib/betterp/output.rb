@@ -15,7 +15,7 @@ module Betterp
 
     def format(args)
       args.map do |arg|
-        style = %i[cyan black]
+        style = %i[yellow]
         header + colorize(prefix) + caller_code + Paint[pretty(arg), *style]
       end
     end
@@ -42,7 +42,7 @@ module Betterp
         +'%{open}%{code}%{close}',
         :default,
         open: ['{ ', :white, :default],
-        code: [find_caller(line.to_i, path).to_s.strip, :blue, :black],
+        code: [find_caller(line.to_i, path).to_s.strip, :cyan],
         close: [' } ', :white, :default]
       ]
     end
