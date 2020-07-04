@@ -3,6 +3,7 @@
 require 'digest'
 require 'pathname'
 require 'pp'
+require 'stringio'
 
 require 'paint'
 
