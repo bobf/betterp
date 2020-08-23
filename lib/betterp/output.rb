@@ -14,7 +14,7 @@ module Betterp
     end
 
     def format(args)
-      args.map(&:inspect).map do |arg|
+      (@pretty ? args : args.map(&:inspect)).map do |arg|
         style = %i[yellow]
         header + colorize(prefix) + caller_code + Paint[pretty(arg), *style]
       end
