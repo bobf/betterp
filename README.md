@@ -16,7 +16,7 @@ The original semantics of `Kernel#p` are still applied, i.e. it returns the valu
 Add the gem to your `Gemfile`
 
 ```ruby
-gem 'betterp', '~> 0.1.5'
+gem 'betterp', '~> 0.1.6'
 ```
 
 And rebuild your bundle:
@@ -27,7 +27,7 @@ $ bundle install
 
 Or install standalone:
 ```bash
-$ gem install betterp -v '0.1.5'
+$ gem install betterp -v '0.1.6'
 ```
 
 ## Usage
