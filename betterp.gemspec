@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.licenses      = ['MIT']
   spec.version       = Betterp::VERSION
   spec.authors       = ['Bob Farrell']
-  spec.email         = ['bob@homeflow.co.uk']
+  spec.email         = ['git@bob.frl']
 
   spec.summary       = 'Enhanced debug output'
   spec.description   = 'Replaces Kernel#p with a fancier version'
