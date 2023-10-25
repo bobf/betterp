@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.describe Betterp::Output do
-  subject(:output) { described_class.new(raw, source) }
+  subject(:output) { described_class.new(raw, source, duration) }
 
   let(:raw) { 'raw caller info' }
+  let(:duration) { nil }
   let(:source) do
     instance_double(
       Betterp::Source,
@@ -15,14 +16,19 @@ RSpec.describe Betterp::Output do
 
   it { is_expected.to be_a described_class }
 
-  describe '#format' do
-    subject(:format) { output.format(['hello']) }
+  describe '#formatted' do
+    subject(:formatted) { output.formatted(['hello']) }
 
-    its(:size) { is_expected.to eql 1 }
+    its(:size) { is_expected.to be 1 }
     its(:first) { is_expected.to include '/path/to/file.rb' }
     its(:first) { is_expected.to include 'test_method' }
     its(:first) { is_expected.to include 'hello' }
-    its(:first) { is_expected.to include '[33m' }
-    its(:first) { is_expected.to end_with '[0m' }
+    its(:first) { is_expected.to include "\e[93m" }
+
+    context 'with duration' do
+      let(:duration) { 1 }
+
+      its(:first) { is_expected.to include '/path/to/file.rb' }
+    end
   end
 end

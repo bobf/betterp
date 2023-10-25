@@ -1,26 +1,41 @@
 # frozen_string_literal: true
 
 module Betterp
+  # Transforms default output from `Kernel.p` into enhanced, colorized output with source
+  # filename, line number, method name, and duration when used with a block.
   class Output
-    COLORS = %i[red green yellow blue magenta cyan].freeze
-    EFFECTS = [:bright, nil].freeze
+    COLORS = %i[red green yellow blue purple cyan red_b green_b yellow_b blue_b purple_b cyan_b].freeze
 
-    def initialize(raw, source, options = {})
+    def initialize(raw, source, duration, options = {})
       @raw = raw
       @source = source
+      @duration = duration
       @color = color
-      @effect = effect
       @pretty = options.fetch(:pretty, false)
     end
 
-    def format(args)
+    def formatted(args)
       (@pretty ? args : args.map(&:inspect)).map do |arg|
-        style = %i[yellow]
-        header + colorize(prefix) + caller_code + Paint[pretty(arg), *style]
+        output = [
+          header, colorized_prefix, colorized_duration, caller_code, colorized_pretty(arg)
+        ].compact.join(' ').chomp
+        "#{output}\n"
       end
     end
 
     private
+
+    def colorized_duration
+      return nil if @duration.nil?
+
+      duration = @duration * 1000
+      color = Betterp.configuration.profiling_threshold.color(duration)
+      Paintbrush.paintbrush { "[#{send color, "#{Float(format('%.2g', duration))}ms"}]" }
+    end
+
+    def colorized_pretty(arg)
+      Paintbrush.paintbrush { cyan pretty(arg) }
+    end
 
     def pretty(arg)
       return arg unless @pretty
@@ -29,22 +44,18 @@ module Betterp
       PP.pp(arg, io)
       return io.string unless io.string.include?("\n")
 
-      "\n" + io.string.split("\n").map { |line| "    #{line}" }.join("\n")
+      "\n#{io.string.split("\n").map { |line| "  #{line}" }.join("\n")}"
     end
 
     def caller_code
-      return '' unless @raw.include?(':')
+      return nil unless @raw.include?(':')
 
       path, line, *_rest = @raw.split(':')
-      return '' unless Pathname.new(path).readable? && line.to_i.positive?
+      return nil unless Pathname.new(path).readable? && line.to_i.positive?
 
-      Paint % [
-        +'%{open}%{code}%{close}',
-        :default,
-        open: ['{ ', :white, :default],
-        code: [find_caller(line.to_i, path).to_s.strip, :cyan],
-        close: [' } ', :white, :default]
-      ]
+      Paintbrush.paintbrush do
+        white "{ #{blue find_caller(line.to_i, path).to_s.strip} }"
+      end
     end
 
     def find_caller(line_number, path)
@@ -54,47 +65,17 @@ module Betterp
     end
 
     def header
-      Paint % [
-        +"%{standard}%{relevant}",
-        :default,
-        standard: ['   ', :default],
-        relevant: ['•••• ', @color, @effect]
-      ]
+      Paintbrush.paintbrush { send @color, '####' }
     end
 
-    def prefix
-      [
-        '%{path}',
-        '%{separator}',
-        '%{line_no}',
-        '%{method_pointer}',
-        '%{method_name}',
-        '%{terminator}'
-      ].join
-    end
-
-    def colorize(string)
-      Paint % [string, :default, mapping]
-    end
-
-    def mapping
-      {
-        path: [@source.path],
-        line_no: [@source.line_no],
-        method_name: [@source.method_name],
-
-        method_pointer: [' => ', :reset, :bright],
-        separator: [':', :reset],
-        terminator: [' :: ', :reset]
-      }
+    def colorized_prefix
+      Paintbrush.paintbrush do
+        "#{blue_b @source.path}:#{cyan_b @source.line_no} => [#{green "##{@source.method_name}"}]"
+      end
     end
 
     def color
       COLORS[hash(@raw).hex % COLORS.size]
-    end
-
-    def effect
-      EFFECTS[hash(hash(@raw)).hex % EFFECTS.size]
     end
 
     def hash(input)

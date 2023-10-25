@@ -2,7 +2,7 @@
 
 require 'betterp'
 
-class MyCustomClass
+class MyCustomClass # rubocop:disable Lint/EmptyClass
 end
 
 p 'hello'

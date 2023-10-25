@@ -10,11 +10,12 @@ RSpec.describe Betterp::Source do
   it { is_expected.to be_a described_class }
 
   its(:path) { is_expected.to eql 'file.rb' }
-  its(:line_no) { is_expected.to eql 100 }
+  its(:line_no) { is_expected.to be 100 }
   its(:method_name) { is_expected.to eql 'test_method' }
 
-  context 'path is not a file' do
+  context 'when path is not a file' do
     let(:path) { '(irb)' }
+
     its(:path) { is_expected.to eql '(irb)' }
   end
 end

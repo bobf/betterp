@@ -6,11 +6,11 @@
 /spec/reports/
 /tmp/
 
-Gemfile.lock
-
 .ruby-version
 .rspec_status
 .byebug_history
 *.swp
 *.swo
 betterp-*.gem
+
+/rspec-documentation/bundle/

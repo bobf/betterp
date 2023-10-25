@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Betterp
+  # Parses a line from a stack trace to generate file path, line number, and method name.
   class Source
     def initialize(source, base_path)
       @source = source
