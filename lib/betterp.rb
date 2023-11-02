@@ -7,6 +7,7 @@ require 'stringio'
 require 'time'
 
 require 'paintbrush'
+require 'rouge'
 
 require 'kernel'
 require 'betterp/configuration'

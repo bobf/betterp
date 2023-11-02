@@ -17,13 +17,19 @@ module Betterp
     def formatted(args)
       (@pretty ? args : args.map(&:inspect)).map do |arg|
         output = [
-          header, colorized_prefix, colorized_duration, caller_code, colorized_pretty(arg)
+          header, colorized_prefix, colorized_duration, caller_code, highlighted(pretty(arg))
         ].compact.join(' ').chomp
         "#{output}\n"
       end
     end
 
     private
+
+    def highlighted(output)
+      formatter = Rouge::Formatters::Terminal256.new
+      lexer = Rouge::Lexers::Ruby.new
+      formatter.format(lexer.lex(output))
+    end
 
     def colorized_duration
       return nil if @duration.nil?

@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_runtime_dependency 'paintbrush', '~> 0.1.3'
+  spec.add_runtime_dependency 'rouge', '~> 4.2'
 
   spec.metadata['rubygems_mfa_required'] = 'true'
 end
