@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    betterp (0.1.8)
+    betterp (0.1.9)
       paintbrush (~> 0.1.3)
       rouge (~> 4.2)
 

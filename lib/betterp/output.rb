@@ -14,10 +14,15 @@ module Betterp
       @pretty = options.fetch(:pretty, false)
     end
 
-    def formatted(args)
+    def formatted(args) # rubocop:disable Metrics/MethodLength
       (@pretty ? args : args.map(&:inspect)).map do |arg|
         output = [
-          header, colorized_prefix, colorized_duration, caller_code, highlighted(pretty(arg))
+          header,
+          colorized_prefix,
+          colorized_duration,
+          highlighted(caller_code),
+          Paintbrush.paintbrush { cyan_b '=>' },
+          highlighted(pretty(arg))
         ].compact.join(' ').chomp
         "#{output}\n"
       end
@@ -28,7 +33,7 @@ module Betterp
     def highlighted(output)
       formatter = Rouge::Formatters::Terminal256.new
       lexer = Rouge::Lexers::Ruby.new
-      formatter.format(lexer.lex(output))
+      formatter.format(lexer.lex(output.nil? ? '' : output))
     end
 
     def colorized_duration
@@ -59,9 +64,7 @@ module Betterp
       path, line, *_rest = @raw.split(':')
       return nil unless Pathname.new(path).readable? && line.to_i.positive?
 
-      Paintbrush.paintbrush do
-        white "{ #{blue find_caller(line.to_i, path).to_s.strip} }"
-      end
+      find_caller(line.to_i, path).to_s.strip
     end
 
     def find_caller(line_number, path)
