@@ -15,14 +15,14 @@ module Betterp
     end
 
     def formatted(args) # rubocop:disable Metrics/MethodLength
-      (@pretty ? args : args.map(&:inspect)).map do |arg|
+      args.map do |arg|
         output = [
           header,
           colorized_prefix,
           colorized_duration,
           highlighted(caller_code),
           Paintbrush.paintbrush { cyan_b '=>' },
-          highlighted(pretty(arg))
+          return_value(arg)
         ].compact.join(' ').chomp
         "#{output}\n"
       end
@@ -30,10 +30,24 @@ module Betterp
 
     private
 
+    def return_value(val)
+      return normalized_highlighted(val) unless @pretty
+
+      highlighted(pretty(val))
+    end
+
     def highlighted(output)
       formatter = Rouge::Formatters::Terminal256.new
       lexer = Rouge::Lexers::Ruby.new
       formatter.format(lexer.lex(output.nil? ? '' : output))
+    end
+
+    def normalized_highlighted(val)
+      pretty_squashed = pretty(val).split("\n")
+                                   .map { |string| string.gsub(/^\s+/, '') }
+                                   .join("\n")
+
+      highlighted(pretty_squashed).split("\n").join(' ')
     end
 
     def colorized_duration
@@ -44,13 +58,7 @@ module Betterp
       Paintbrush.paintbrush { "[#{send color, "#{Float(format('%.2g', duration))}ms"}]" }
     end
 
-    def colorized_pretty(arg)
-      Paintbrush.paintbrush { cyan pretty(arg) }
-    end
-
     def pretty(arg)
-      return arg unless @pretty
-
       io = StringIO.new
       PP.pp(arg, io)
       return io.string unless io.string.include?("\n")
